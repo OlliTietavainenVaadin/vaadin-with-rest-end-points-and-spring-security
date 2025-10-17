@@ -1,5 +1,7 @@
 package in.virit.sb.example;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -7,6 +9,13 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+@OpenAPIDefinition(
+        info = @Info(
+                title = "My API",
+                version = "1.0",
+                description = "API documentation"
+        )
+)
 @SpringBootApplication
 public class DevModeDemoApplication extends DemoApplication {
 

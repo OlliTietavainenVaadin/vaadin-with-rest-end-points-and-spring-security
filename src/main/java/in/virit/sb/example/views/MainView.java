@@ -17,7 +17,10 @@ package in.virit.sb.example.views;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.markdown.Markdown;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -26,37 +29,34 @@ import in.virit.sb.example.Message;
 import in.virit.sb.example.MessageService;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.vaadin.firitin.components.RichText;
-import org.vaadin.firitin.components.grid.VGrid;
-import org.vaadin.firitin.components.orderedlayout.VHorizontalLayout;
 
-@Route
+@Route("")
 // Request authenticated user
 @PermitAll
 public class MainView extends VerticalLayout {
-    
+
     public MainView(AuthenticationContext auth, MessageService messageService) {
         add(new H1("It works! You are logged in as " + auth.getAuthenticatedUser(UserDetails.class).get().getUsername()));
 
-        add(new RichText().withMarkDown("""
-        This is the Vaadin part of this example, nothing special here. You can also access the same data using REST API. 
-        You can try with CLI using following cURL examples. Accessing (without need for authentication):
-        
-            curl http://localhost:8080/api/public/export
-
-        Inserting new messages (with basic http auth authentication):
-        
-            curl -H "Content-Type: application/json" \\ 
-                -u user:password --request POST  --data '{"user" : "Masa", "message" : "Olink eka?!"}' \\ 
-                http://localhost:8080/api/private/import
+        add(new Markdown("""
+                This is the Vaadin part of this example, nothing special here. You can also access the same data using REST API. 
+                You can try with CLI using following cURL examples. Accessing (without need for authentication):
                 
-        """));
+                    curl http://localhost:8080/my-context/api/public/export
+                
+                Inserting new messages (with basic http auth authentication):
+                
+                    curl -H "Content-Type: application/json" \\ 
+                        -u user:password --request POST  --data '{"user" : "Masa", "message" : "Olink eka?!"}' \\ 
+                        http://localhost:8080/my-context/api/private/import
+                
+                """));
 
-        var grid = new VGrid<Message>(Message.class)
-                .withHeight("300px");
+        var grid = new Grid<Message>(Message.class);
+        grid.setHeight("300px");
         var userField = new TextField("User");
         var msgField = new TextField("Message");
-        add(new VHorizontalLayout(
+        var hl = new HorizontalLayout(
                 userField,
                 msgField,
                 new Button("Send", e -> {
@@ -64,12 +64,16 @@ public class MainView extends VerticalLayout {
                     grid.setItems(messageService.getMessages());
                 }),
                 new Button("Refresh messages manually", e -> grid.setItems(messageService.getMessages())),
-                new Button("Logout", e -> { auth.logout(); UI.getCurrent().navigate("");})
-        ).withAlignItems(Alignment.BASELINE));
-
+                new Button("Logout", e -> {
+                    auth.logout();
+                    UI.getCurrent().navigate("");
+                })
+        );
+        hl.setAlignItems(Alignment.BASELINE);
+        add(hl);
         add(grid);
         grid.setItems(messageService.getMessages());
 
     }
-    
+
 }
