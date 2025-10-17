@@ -5,7 +5,7 @@ two REST endpoints. One with public read access and one with secured access to p
 messages. The Vaadin side is also secured, and contains further examples how to 
 play with the demo.
 
-Import the project to your IDE, run the main class `DevModeDemoApplication` and open
+Import the project to your IDE, run the main class `DemoApplication` and open
 http://localhost:8080/my-context in your browser.
 
 ## Notes
