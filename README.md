@@ -6,13 +6,9 @@ messages. The Vaadin side is also secured, and contains further examples how to
 play with the demo.
 
 Import the project to your IDE, run the main class `DevModeDemoApplication` and open
-http://localhost:8080 in your browser.
+http://localhost:8080/my-context in your browser.
 
 ## Notes
 
-The app uses a [PoC of proper production builds](https://vaadin.com/forum/t/try-my-new-project-stubs-for-better-dx-cloud-compatibility-and-cleaner-pom-xml/166655), 
-but it doesn't affect the actual demo of REST endpoints next to Vaadin UI and how to configure their security settings.
-
-Start the project from the DevModeDemoApplication class on the test side, or with CLI
-command `mvn spring-boot:test-run`. Otherwise the app is just normal Vaadin + Spring Boot app.
+The app also exposes a Swagger-UI at http://localhost:8080/my-context/swagger-ui.html. 
 
